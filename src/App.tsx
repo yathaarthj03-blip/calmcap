@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useStore } from './store/useStore';
 import { OnboardingLayout } from './pages/onboarding/OnboardingLayout';
 import { WelcomePage } from './pages/onboarding/WelcomePage';
@@ -55,9 +55,22 @@ const DemoParamChecker: React.FC = () => {
   return null;
 };
 
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.body.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+
+  return null;
+};
+
 export const App: React.FC = () => {
   return (
     <HashRouter>
+      <ScrollToTop />
       <DemoParamChecker />
       <Routes>
         {/* Direct root shortcuts */}

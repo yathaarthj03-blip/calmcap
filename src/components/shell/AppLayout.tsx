@@ -32,6 +32,13 @@ export const AppLayout: React.FC = () => {
 
   const title = PAGE_TITLES[location.pathname] ?? 'CalmCap';
 
+  // Always reset scroll to top when changing navigation tabs
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.body.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
   // Periodic reminder checker (every 20 seconds) - Section 11.3
   useEffect(() => {
     const checkReminders = () => {
