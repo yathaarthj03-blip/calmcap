@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CalmCap: a calm planning tool that turns 'I want to be a millionaire' into a plan you can stick with." />
+    <title>CalmCap</title>
+    <script>
+      try {
+        var raw = localStorage.getItem('corridor.v1');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          var t = parsed && parsed.state && parsed.state.settings ? parsed.state.settings.theme : 'system';
+          var dark = t === 'dark' || (t !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+    <script type="module" crossorigin src="./assets/index-1pnpDGYw.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-C69g73Ai.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
