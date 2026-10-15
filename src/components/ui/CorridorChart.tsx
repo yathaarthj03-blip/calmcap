@@ -19,6 +19,7 @@ interface CorridorChartProps {
   goalAmount?: number;
   height?: number;
   showActual?: boolean;
+  hideSummaryFooter?: boolean;
 }
 
 export const CorridorChart: React.FC<CorridorChartProps> = ({
@@ -26,6 +27,7 @@ export const CorridorChart: React.FC<CorridorChartProps> = ({
   goalAmount,
   height = 260,
   showActual = false,
+  hideSummaryFooter = false,
 }) => {
   if (!data || data.length === 0) {
     return (
@@ -171,11 +173,11 @@ export const CorridorChart: React.FC<CorridorChartProps> = ({
         </ComposedChart>
       </ResponsiveContainer>
 
-      {lastPoint && (
-        <div className="flex justify-end text-[11px] text-muted gap-3 mt-1 px-2">
-          <span>Low: <strong className="num text-ink">{inrCompact(lastPoint.low)}</strong></span>
-          <span>Likely: <strong className="num text-accent">{inrCompact(lastPoint.likely)}</strong></span>
-          <span>High: <strong className="num text-ink">{inrCompact(lastPoint.high)}</strong></span>
+      {!hideSummaryFooter && lastPoint && (
+        <div className="flex flex-wrap items-center justify-end text-[11px] text-muted gap-3 sm:gap-4 mt-2 mb-1 px-2">
+          <span>Low: <strong className="num text-ink font-semibold">{inrCompact(lastPoint.low)}</strong></span>
+          <span>Likely: <strong className="num text-accent font-semibold">{inrCompact(lastPoint.likely)}</strong></span>
+          <span>High: <strong className="num text-ink font-semibold">{inrCompact(lastPoint.high)}</strong></span>
         </div>
       )}
     </div>

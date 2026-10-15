@@ -5,7 +5,7 @@ interface CorridorMarkProps {
   size?: number;
 }
 
-export const CorridorMark: React.FC<CorridorMarkProps> = ({ className = '', size = 32 }) => {
+export const CorridorMark: React.FC<CorridorMarkProps> = ({ className = '', size = 54 }) => {
   const [imageError, setImageError] = useState(false);
 
   if (!imageError) {

@@ -32,7 +32,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title, onMobileMenuOpen, onOpenM
   const todayStr = format(new Date(), 'EEEE, d MMMM yyyy');
 
   return (
-    <header className="sticky top-0 z-20 bg-surface/95 border-b border-line">
+    <header className="sticky top-0 z-20 bg-surface/80 backdrop-blur-md border-b border-line/70">
       {/* Storage Warning Notice (Rule 1) */}
       {storageWarning && (
         <div className="bg-mid/10 text-mid px-4 py-1.5 text-xs font-medium text-center border-b border-mid/20 flex items-center justify-center gap-2">
@@ -57,38 +57,39 @@ export const TopBar: React.FC<TopBarProps> = ({ title, onMobileMenuOpen, onOpenM
         </div>
       )}
 
-      <div className="h-16 px-4 sm:px-6 flex items-center justify-between gap-4">
+      {/* Navbar increased by 15% to 74px with glassmorphism */}
+      <div className="h-[74px] px-4 sm:px-6 flex items-center justify-between gap-4">
         {/* Left: Mobile menu & Title */}
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={onMobileMenuOpen}
-            className="md:hidden p-2 rounded-ctl text-muted hover:text-ink hover:bg-surface-2 transition-colors"
+            className="md:hidden p-2 rounded-ctl text-neutral-300 hover:text-ink hover:bg-surface-2 transition-colors"
             aria-label="Open navigation menu"
           >
             <Menu className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg sm:text-xl font-display font-semibold text-ink leading-tight">
+            <h1 className="text-xl sm:text-2xl font-display font-semibold text-ink leading-tight">
               {title}
             </h1>
-            <p className="text-xs text-muted hidden sm:block">{todayStr}</p>
+            <p className="text-xs text-neutral-400 hidden sm:block font-medium">{todayStr}</p>
           </div>
         </div>
 
-        {/* Center: RonDesignLab Top Segmented Nav Pill Capsule */}
+        {/* Center: RonDesignLab Top Segmented Nav Pill Capsule (scaled +15% with bright unactive options) */}
         <nav
           aria-label="Primary sections"
-          className="hidden xl:flex items-center gap-1 bg-[#1A1E1D] border border-line/50 p-1 rounded-full shadow-sm"
+          className="hidden xl:flex items-center gap-1.5 bg-[#181C1B]/90 backdrop-blur-md border border-line/60 p-1.5 rounded-full shadow-md"
         >
           {TOP_NAV_ITEMS.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                `px-4 py-2 rounded-full text-[13px] tracking-wide transition-all ${
                   isActive
                     ? 'bg-[#F4EFEA] text-[#121615] font-semibold shadow-sm'
-                    : 'text-muted hover:text-ink hover:bg-surface-2/60'
+                    : 'text-neutral-100 hover:text-white hover:bg-white/10 font-medium'
                 }`
               }
             >

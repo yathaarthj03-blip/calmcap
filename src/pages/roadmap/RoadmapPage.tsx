@@ -14,6 +14,7 @@ import { corridorSeries } from '../../engine/plan';
 import { roadmapCsv } from '../../engine/csv';
 import { liveMarketProvider } from '../../data/providers';
 import { CorridorChart } from '../../components/ui/CorridorChart';
+import { ScrollReveal } from '../../components/ui/ScrollReveal';
 
 export const RoadmapPage: React.FC = () => {
   const activePlan = useStore(selectActivePlan);
@@ -141,173 +142,180 @@ export const RoadmapPage: React.FC = () => {
       </div>
 
       {/* 2. Monthly Summary Cards (Safe vs Investing ranges) */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-panel bg-surface border border-line">
-          <div className="text-xs uppercase tracking-wider font-semibold text-safe mb-1">
-            Monthly Safe Saving
+      <ScrollReveal delay={0.05}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="p-4 glass-card">
+            <div className="text-xs uppercase tracking-wider font-semibold text-safe mb-1">
+              Monthly Safe Saving
+            </div>
+            <div className="text-xl font-display font-bold text-ink num">
+              {inr(savingRange[0])} – {inr(savingRange[1])}
+            </div>
+            <div className="text-xs text-muted mt-1">
+              Safe bucket ({spec.allocation.safe}%) for cash cushion and liquidity.
+            </div>
           </div>
-          <div className="text-xl font-display font-bold text-ink num">
-            {inr(savingRange[0])} – {inr(savingRange[1])}
-          </div>
-          <div className="text-xs text-muted mt-1">
-            Safe bucket ({spec.allocation.safe}%) for cash cushion and liquidity.
-          </div>
-        </div>
 
-        <div className="p-4 rounded-panel bg-surface border border-line">
-          <div className="text-xs uppercase tracking-wider font-semibold text-accent mb-1">
-            Monthly Investing
+          <div className="p-4 glass-card">
+            <div className="text-xs uppercase tracking-wider font-semibold text-accent mb-1">
+              Monthly Investing
+            </div>
+            <div className="text-xl font-display font-bold text-ink num">
+              {inr(investRange[0])} – {inr(investRange[1])}
+            </div>
+            <div className="text-xs text-muted mt-1">
+              Mid & Long buckets ({spec.allocation.mid + spec.allocation.long}%) for long-term growth.
+            </div>
           </div>
-          <div className="text-xl font-display font-bold text-ink num">
-            {inr(investRange[0])} – {inr(investRange[1])}
-          </div>
-          <div className="text-xs text-muted mt-1">
-            Mid & Long buckets ({spec.allocation.mid + spec.allocation.long}%) for long-term growth.
-          </div>
-        </div>
 
-        <div className="p-4 rounded-panel bg-surface border border-line">
-          <div className="text-xs uppercase tracking-wider font-semibold text-ink mb-1">
-            Recommended Total
-          </div>
-          <div className="text-xl font-display font-bold text-accent num">
-            {inr(range.base)}
-            <span className="text-xs font-normal text-muted">/month</span>
-          </div>
-          <div className="text-xs text-muted mt-1">
-            Range: {inr(range.min)} (lean) to {inr(range.max)} (cushion).
+          <div className="p-4 glass-card">
+            <div className="text-xs uppercase tracking-wider font-semibold text-ink mb-1">
+              Recommended Total
+            </div>
+            <div className="text-xl font-display font-bold text-accent num">
+              {inr(range.base)}
+              <span className="text-xs font-normal text-muted">/month</span>
+            </div>
+            <div className="text-xs text-muted mt-1">
+              Range: {inr(range.min)} (lean) to {inr(range.max)} (cushion).
+            </div>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* 3. Cumulative Corridor Chart */}
-      <div className="p-5 rounded-panel bg-surface border border-line space-y-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-base font-semibold text-ink">Corridor of Outcomes</h3>
-            <p className="text-xs text-muted">
-              Likely growth line surrounded by the 15% range band. Solid dot indicates current actual savings.
-            </p>
+      <ScrollReveal delay={0.1}>
+        <div className="p-5 glass-card space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-semibold text-ink">Corridor of Outcomes</h3>
+              <p className="text-xs text-muted">
+                Likely growth line surrounded by the 15% range band. Solid dot indicates current actual savings.
+              </p>
+            </div>
+            <span className="text-xs text-muted font-medium num">
+              Target: {inr(spec.goalAmount)}
+            </span>
           </div>
-          <span className="text-xs text-muted font-medium num">
-            Target: {inr(spec.goalAmount)}
-          </span>
+          <CorridorChart data={chartPoints} goalAmount={spec.goalAmount} height={240} showActual={true} />
         </div>
-        <CorridorChart data={chartPoints} goalAmount={spec.goalAmount} height={240} showActual={true} />
-      </div>
+      </ScrollReveal>
 
       {/* 4. Where to put it (today's research) */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold text-ink">Where to put it (Today's research)</h3>
-          <span className="text-xs text-muted">{marketSnapshot.updatedLabel}</span>
+      <ScrollReveal delay={0.15}>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold text-ink">Where to put it (Today's research)</h3>
+            <span className="text-xs text-muted">{marketSnapshot.updatedLabel}</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Safe bucket */}
+            <div className="p-4 glass-card space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase text-safe tracking-wider">
+                  Safe bucket ({spec.allocation.safe}%)
+                </span>
+              </div>
+              <div className="space-y-2">
+                {safeItems.map((item) => (
+                  <div key={item.id} className="text-xs border-b border-line/60 pb-2 last:border-none">
+                    <div className="font-semibold text-ink">{item.category}</div>
+                    <div className="text-muted text-[11px] leading-relaxed mt-0.5">{item.why}</div>
+                    <div className="text-safe font-medium mt-1 num">
+                      {item.rateRange[0]}% – {item.rateRange[1]}% illustrative
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Mid bucket */}
+            <div className="p-4 glass-card space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase text-mid tracking-wider">
+                  Mid bucket ({spec.allocation.mid}%)
+                </span>
+              </div>
+              <div className="space-y-2">
+                {midItems.map((item) => (
+                  <div key={item.id} className="text-xs border-b border-line/60 pb-2 last:border-none">
+                    <div className="font-semibold text-ink">{item.category}</div>
+                    <div className="text-muted text-[11px] leading-relaxed mt-0.5">{item.why}</div>
+                    <div className="text-mid font-medium mt-1 num">
+                      {item.rateRange[0]}% – {item.rateRange[1]}% illustrative
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Long bucket */}
+            <div className="p-4 glass-card space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase text-accent tracking-wider">
+                  Growth bucket ({spec.allocation.long}%)
+                </span>
+              </div>
+              <div className="space-y-2">
+                {longItems.map((item) => (
+                  <div key={item.id} className="text-xs border-b border-line/60 pb-2 last:border-none">
+                    <div className="font-semibold text-ink">{item.category}</div>
+                    <div className="text-muted text-[11px] leading-relaxed mt-0.5">{item.why}</div>
+                    <div className="text-accent font-medium mt-1 num">
+                      {item.rateRange[0]}% – {item.rateRange[1]}% illustrative
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Safe bucket */}
-          <div className="p-4 rounded-panel bg-surface border border-line space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase text-safe tracking-wider">
-                Safe bucket ({spec.allocation.safe}%)
-              </span>
-            </div>
-            <div className="space-y-2">
-              {safeItems.map((item) => (
-                <div key={item.id} className="text-xs border-b border-line/60 pb-2 last:border-none">
-                  <div className="font-semibold text-ink">{item.category}</div>
-                  <div className="text-muted text-[11px] leading-relaxed mt-0.5">{item.why}</div>
-                  <div className="text-safe font-medium mt-1 num">
-                    {item.rateRange[0]}% – {item.rateRange[1]}% illustrative
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mid bucket */}
-          <div className="p-4 rounded-panel bg-surface border border-line space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase text-mid tracking-wider">
-                Mid bucket ({spec.allocation.mid}%)
-              </span>
-            </div>
-            <div className="space-y-2">
-              {midItems.map((item) => (
-                <div key={item.id} className="text-xs border-b border-line/60 pb-2 last:border-none">
-                  <div className="font-semibold text-ink">{item.category}</div>
-                  <div className="text-muted text-[11px] leading-relaxed mt-0.5">{item.why}</div>
-                  <div className="text-mid font-medium mt-1 num">
-                    {item.rateRange[0]}% – {item.rateRange[1]}% illustrative
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Long bucket */}
-          <div className="p-4 rounded-panel bg-surface border border-line space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase text-accent tracking-wider">
-                Growth bucket ({spec.allocation.long}%)
-              </span>
-            </div>
-            <div className="space-y-2">
-              {longItems.map((item) => (
-                <div key={item.id} className="text-xs border-b border-line/60 pb-2 last:border-none">
-                  <div className="font-semibold text-ink">{item.category}</div>
-                  <div className="text-muted text-[11px] leading-relaxed mt-0.5">{item.why}</div>
-                  <div className="text-accent font-medium mt-1 num">
-                    {item.rateRange[0]}% – {item.rateRange[1]}% illustrative
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      </ScrollReveal>
 
       {/* 5. Month-by-Month Table */}
-      <div className="space-y-3 pt-2">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h3 className="text-base font-semibold text-ink">Schedule of Contributions</h3>
-            <p className="text-xs text-muted">
-              {spec.stepUpPct > 0
-                ? `Includes ${spec.stepUpPct}% annual step-up compounding every 12 months.`
-                : 'Steady monthly contributions.'}
-            </p>
+      <ScrollReveal delay={0.2}>
+        <div className="space-y-3 pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 className="text-base font-semibold text-ink">Schedule of Contributions</h3>
+              <p className="text-xs text-muted">
+                {spec.stepUpPct > 0
+                  ? `Includes ${spec.stepUpPct}% annual step-up compounding every 12 months.`
+                  : 'Steady monthly contributions.'}
+              </p>
+            </div>
+
+            {/* Filter toggle */}
+            <div className="flex items-center gap-1 p-1 bg-surface-2 rounded-ctl self-start sm:self-auto text-xs">
+              <button
+                onClick={() => {
+                  setFilterMode('12_MONTHS');
+                  setPage(1);
+                }}
+                className={`px-3 py-1.5 rounded font-medium transition-colors ${
+                  filterMode === '12_MONTHS'
+                    ? 'bg-surface text-ink shadow-xs font-semibold'
+                    : 'text-muted hover:text-ink'
+                }`}
+              >
+                Next 12 months
+              </button>
+              <button
+                onClick={() => setFilterMode('ALL')}
+                className={`px-3 py-1.5 rounded font-medium transition-colors ${
+                  filterMode === 'ALL'
+                    ? 'bg-surface text-ink shadow-xs font-semibold'
+                    : 'text-muted hover:text-ink'
+                }`}
+              >
+                All {rows.length} months
+              </button>
+            </div>
           </div>
 
-          {/* Filter toggle */}
-          <div className="flex items-center gap-1 p-1 bg-surface-2 rounded-ctl self-start sm:self-auto text-xs">
-            <button
-              onClick={() => {
-                setFilterMode('12_MONTHS');
-                setPage(1);
-              }}
-              className={`px-3 py-1.5 rounded font-medium transition-colors ${
-                filterMode === '12_MONTHS'
-                  ? 'bg-surface text-ink shadow-xs font-semibold'
-                  : 'text-muted hover:text-ink'
-              }`}
-            >
-              Next 12 months
-            </button>
-            <button
-              onClick={() => setFilterMode('ALL')}
-              className={`px-3 py-1.5 rounded font-medium transition-colors ${
-                filterMode === 'ALL'
-                  ? 'bg-surface text-ink shadow-xs font-semibold'
-                  : 'text-muted hover:text-ink'
-              }`}
-            >
-              All {rows.length} months
-            </button>
-          </div>
-        </div>
-
-        {/* Desktop Table / Mobile Cards */}
-        <div className="panel overflow-hidden">
+          {/* Desktop Table / Mobile Cards */}
+          <div className="glass-card overflow-hidden">
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
@@ -448,6 +456,7 @@ export const RoadmapPage: React.FC = () => {
           )}
         </div>
       </div>
+      </ScrollReveal>
     </div>
   );
 };

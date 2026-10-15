@@ -25,8 +25,8 @@ export const OnboardingLayout: React.FC = () => {
       {/* Top Header with CalmCap Brand and 3-Segment Progress Indicator */}
       <header className="max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto w-full flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <CorridorMark size={36} />
-          <span className="font-display font-bold text-2xl tracking-tight text-ink">CalmCap</span>
+          <CorridorMark size={62} className="drop-shadow-md" />
+          <span className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-ink">CalmCap</span>
         </div>
 
         {/* 3-segment progress indicator */}

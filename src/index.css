@@ -71,7 +71,29 @@
     font-variant-numeric: tabular-nums;
   }
   .panel {
-    @apply rounded-panel border border-line bg-surface;
+    @apply rounded-panel border border-line/70 bg-surface/85 backdrop-blur-md shadow-sm transition-all duration-300;
+  }
+  .panel:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+    transform: translateY(-2px);
+  }
+  .dark .panel:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  }
+  .glass-card {
+    @apply rounded-panel border border-line/70 bg-surface/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.45)] transition-all duration-300;
+  }
+  .glass-card:hover {
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.10);
+    border-color: rgba(var(--accent), 0.35);
+    transform: translateY(-2px);
+  }
+  .dark .glass-card:hover {
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.40);
+    border-color: rgba(var(--accent), 0.45);
+  }
+  .glass-header {
+    @apply bg-surface/85 backdrop-blur-md border-b border-line/70;
   }
   .label {
     @apply text-sm font-medium text-ink;

@@ -81,13 +81,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
     : 'A';
 
   const content = (
-    <div className="flex flex-col h-full bg-surface border-r border-line select-none">
-      {/* Header with Logo and Collapse Toggle */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-line">
+    <div className="flex flex-col h-full bg-surface/85 backdrop-blur-md border-r border-line/70 select-none">
+      {/* Header with Logo (increased 70%) and Collapse Toggle */}
+      <div className="h-[74px] flex items-center justify-between px-4 border-b border-line/70">
         <NavLink to="/app/dashboard" className="flex items-center gap-3 overflow-hidden">
-          <CorridorMark size={28} className="shrink-0" />
+          <CorridorMark size={48} className="shrink-0 drop-shadow-md" />
           {(!collapsed || mobileOpen) && (
-            <span className="font-display font-semibold text-lg tracking-tight text-ink">
+            <span className="font-display font-bold text-xl tracking-tight text-ink">
               CalmCap
             </span>
           )}
@@ -96,7 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
         {/* Desktop collapse button */}
         <button
           onClick={() => setSidebarCollapsed(!collapsed)}
-          className="hidden md:flex p-1.5 rounded-ctl text-muted hover:text-ink hover:bg-surface-2 transition-colors"
+          className="hidden md:flex p-1.5 rounded-ctl text-neutral-300 hover:text-ink hover:bg-surface-2 transition-colors"
           title={collapsed ? 'Expand sidebar ( [ )' : 'Collapse sidebar ( [ )'}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
@@ -106,14 +106,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
         {/* Mobile close button */}
         <button
           onClick={onMobileClose}
-          className="md:hidden p-1.5 rounded-ctl text-muted hover:text-ink hover:bg-surface-2 transition-colors"
+          className="md:hidden p-1.5 rounded-ctl text-neutral-300 hover:text-ink hover:bg-surface-2 transition-colors"
           aria-label="Close menu"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Navigation Items */}
+      {/* Navigation Items with bright unactive labels */}
       <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -125,8 +125,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-ctl text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-accent/10 text-accent font-semibold'
-                    : 'text-muted hover:text-ink hover:bg-surface-2'
+                    ? 'bg-accent/15 text-accent font-semibold shadow-xs'
+                    : 'text-neutral-200 dark:text-neutral-200 hover:text-ink hover:bg-surface-2/80 font-medium'
                 } ${isCollapsedMode ? 'justify-center px-0' : ''}`
               }
             >

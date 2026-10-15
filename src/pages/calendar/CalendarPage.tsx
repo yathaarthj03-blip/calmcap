@@ -38,6 +38,7 @@ import {
   type CareerTaskTemplate,
 } from '../../engine/education';
 import { Dialog } from '../../components/ui/Dialog';
+import { ScrollReveal } from '../../components/ui/ScrollReveal';
 
 export const CalendarPage: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(() => new Date());
@@ -270,7 +271,8 @@ export const CalendarPage: React.FC = () => {
       </div>
 
       {/* Education-Driven Career & Income Booster Section */}
-      <div className="panel p-5 sm:p-6 space-y-5 border-l-4 border-l-accent">
+      <ScrollReveal>
+        <div className="panel p-5 sm:p-6 space-y-5 border-l-4 border-l-accent">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -454,8 +456,10 @@ export const CalendarPage: React.FC = () => {
           })}
         </div>
       </div>
+      </ScrollReveal>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+      <ScrollReveal delay={0.1}>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
         {/* Left Side: Quarterly Milestones Panel */}
         <div className="space-y-4 order-2 lg:order-1">
           {currentQuarterMilestone && (
@@ -656,6 +660,7 @@ export const CalendarPage: React.FC = () => {
           )}
         </div>
       </div>
+      </ScrollReveal>
 
       {/* Notion-style Date Click Dialog */}
       <Dialog
