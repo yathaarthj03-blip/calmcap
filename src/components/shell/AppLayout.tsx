@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import { useStore } from '../../store/useStore';
@@ -23,6 +23,9 @@ export const AppLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [monthlyModalOpen, setMonthlyModalOpen] = useState(false);
   const [mandatoryMonthly, setMandatoryMonthly] = useState(false);
+
+  const handleMobileClose = useCallback(() => setMobileMenuOpen(false), []);
+  const handleMobileOpen = useCallback(() => setMobileMenuOpen(true), []);
 
   const collapsed = useStore((s) => s.settings.sidebarCollapsed);
   const location = useLocation();
@@ -78,7 +81,7 @@ export const AppLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-bg text-ink flex">
       {/* Sidebar navigation */}
-      <Sidebar mobileOpen={mobileMenuOpen} onMobileClose={() => setMobileMenuOpen(false)} />
+      <Sidebar mobileOpen={mobileMenuOpen} onMobileClose={handleMobileClose} />
 
       {/* Main content wrapper */}
       <div
@@ -88,7 +91,7 @@ export const AppLayout: React.FC = () => {
       >
         <TopBar
           title={title}
-          onMobileMenuOpen={() => setMobileMenuOpen(true)}
+          onMobileMenuOpen={handleMobileOpen}
           onOpenMonthlyModal={() => {
             setMandatoryMonthly(false);
             setMonthlyModalOpen(true);

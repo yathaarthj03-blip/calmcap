@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -43,10 +43,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
   const activePlan = useStore(selectActivePlan);
   const location = useLocation();
 
-  // Close mobile drawer on route change
+  const isMobileOpenRef = useRef(mobileOpen);
+  isMobileOpenRef.current = mobileOpen;
+
+  const onMobileCloseRef = useRef(onMobileClose);
+  onMobileCloseRef.current = onMobileClose;
+
+  // Close mobile drawer on route change ONLY when open
   useEffect(() => {
-    onMobileClose();
-  }, [location.pathname, onMobileClose]);
+    if (isMobileOpenRef.current) {
+      onMobileCloseRef.current();
+    }
+  }, [location.pathname]);
 
   // Keyboard shortcut `[` to toggle collapse
   useEffect(() => {

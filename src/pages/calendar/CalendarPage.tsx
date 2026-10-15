@@ -150,7 +150,7 @@ export const CalendarPage: React.FC = () => {
   // Sync state when selected date changes
   useEffect(() => {
     if (selectedDateKey) {
-      const entry = calendar[selectedDateKey];
+      const entry = useStore.getState().calendar[selectedDateKey];
       setDialogTitle(entry?.title || '');
       setDialogNote(entry?.note || '');
       setDialogReminderTime(entry?.reminderTime || '');
@@ -159,7 +159,7 @@ export const CalendarPage: React.FC = () => {
       setReminders(entry?.reminders || []);
       setSavedStatus(false);
     }
-  }, [selectedDateKey, calendar]);
+  }, [selectedDateKey]);
 
   // Autosave handler
   const isFirstRender = useRef(true);
