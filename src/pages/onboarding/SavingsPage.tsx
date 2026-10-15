@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, ShieldAlert, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
@@ -37,11 +37,6 @@ export const SavingsPage: React.FC = () => {
   const incomeState = useStore((s) => s.income);
   const activePlan = useStore((s) => s.planVersions[s.planVersions.length - 1]);
   const settings = useStore((s) => s.settings);
-
-  // If user navigated directly here without step 2 data, redirect back
-  if (incomeState.primary <= 0) {
-    navigate('/setup/income');
-  }
 
   const band = (activePlan.goal.band || 'LONG') as Band;
   const months = activePlan.goal.months || 120;
@@ -158,6 +153,11 @@ export const SavingsPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate('/loading');
   };
+
+  // If user navigated directly here without step 2 data, redirect back cleanly
+  if (incomeState.primary <= 0) {
+    return <Navigate to="/setup/income" replace />;
+  }
 
   return (
     <motion.div

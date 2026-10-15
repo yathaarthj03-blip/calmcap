@@ -57,7 +57,7 @@ export const AdminPage: React.FC = () => {
   const updateIncome = useStore((s) => s.updateIncome);
   const activePlan = useStore(selectActivePlan);
   const capacity = useStore(selectCapacity);
-  const savingsNow = useStore((s) => selectSavingsSoFar(s));
+  const savingsNow = useStore(selectSavingsSoFar);
   const holdings = useStore((s) => s.holdings);
   const addHolding = useStore((s) => s.addHolding);
   const editHolding = useStore((s) => s.editHolding);

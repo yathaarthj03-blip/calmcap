@@ -53,7 +53,7 @@ export const FallbackPage: React.FC = () => {
   const scenario: Scenario = useMemo(() => scenarioById(activeScenarioId), [activeScenarioId]);
 
   // Current savings before shock
-  const rawSavings = useStore((s) => selectSavingsBreakdown(s));
+  const rawSavings = useStore(selectSavingsBreakdown);
 
   // Current stage: 1 to 4
   const [stage, setStage] = useState<1 | 2 | 3 | 4>(calamity ? 2 : 1);

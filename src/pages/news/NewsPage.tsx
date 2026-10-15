@@ -24,7 +24,7 @@ import { GLOSSARY } from '../../data/glossary';
 export const NewsPage: React.FC = () => {
   const activePlan = useStore(selectActivePlan);
   const spec = useStore(selectPlanSpec);
-  const savings = useStore((s) => selectSavingsBreakdown(s));
+  const savings = useStore(selectSavingsBreakdown);
 
   const [openGlossaryTerm, setOpenGlossaryTerm] = useState<string | null>('SIP');
 

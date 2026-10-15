@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useStore } from './store/useStore';
 import { OnboardingLayout } from './pages/onboarding/OnboardingLayout';
 import { WelcomePage } from './pages/onboarding/WelcomePage';
@@ -25,16 +25,32 @@ const OnboardingGuard: React.FC<{ children: React.ReactNode }> = ({ children }) 
 };
 
 const DemoParamChecker: React.FC = () => {
-  const location = useLocation();
+  const hasCheckedRef = React.useRef(false);
 
   useEffect(() => {
-    // Check ?demo=1 in search or hash
-    const params = new URLSearchParams(window.location.search);
-    const hashParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
-    if (params.get('demo') === '1' || hashParams.get('demo') === '1') {
-      useStore.getState().loadDemoData();
+    if (hasCheckedRef.current) return;
+    hasCheckedRef.current = true;
+
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const hashSplit = window.location.hash.split('?')[1] || '';
+      const hashParams = new URLSearchParams(hashSplit);
+
+      if (searchParams.get('demo') === '1' || hashParams.get('demo') === '1') {
+        useStore.getState().loadDemoData();
+
+        // Clean query parameter from URL to prevent infinite re-triggering on navigation
+        if (window.history && window.history.replaceState) {
+          const cleanSearch = window.location.search.replace(/[?&]demo=1(&|$)/, '').replace(/\?$/, '');
+          const cleanHash = window.location.hash.replace(/[?&]demo=1(&|$)/, '').replace(/\?$/, '');
+          const newUrl = window.location.pathname + cleanSearch + cleanHash;
+          window.history.replaceState({}, document.title, newUrl);
+        }
+      }
+    } catch {
+      // Safe fallback
     }
-  }, [location.search, location.hash]);
+  }, []);
 
   return null;
 };

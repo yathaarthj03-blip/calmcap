@@ -50,13 +50,38 @@ export const DashboardPage: React.FC = () => {
   const profile = useStore((s) => s.profile);
   const income = useStore((s) => s.income);
   const incomeHistory = useStore((s) => s.incomeHistory);
-  const activePlan = useStore(selectActivePlan);
+  const planVersions = useStore((s) => s.planVersions);
+  const holdings = useStore((s) => s.holdings);
+  const ledger = useStore((s) => s.ledger);
+  const milestones = useStore((s) => s.milestones);
+  const calamity = useStore((s) => s.calamity);
+  const settings = useStore((s) => s.settings);
+
+  const activePlan = useMemo(() => {
+    return planVersions.length > 0 ? planVersions[planVersions.length - 1] : selectActivePlan(useStore.getState());
+  }, [planVersions]);
+
   const spec = useStore(selectPlanSpec);
-  const savings = useStore((s) => selectSavingsBreakdown(s, asOf));
-  const countdown = useStore((s) => selectCountdown(s, asOf));
-  const projection = useStore((s) => selectProjectedFinish(s, asOf));
-  const nextMilestone = useStore(selectNextMilestone);
-  const updateDue = useStore((s) => selectMonthlyUpdateDue(s, asOf));
+
+  const savings = useMemo(() => {
+    return selectSavingsBreakdown({ ...useStore.getState(), holdings, ledger, calamity }, asOf);
+  }, [holdings, ledger, calamity, asOf]);
+
+  const countdown = useMemo(() => {
+    return selectCountdown({ ...useStore.getState(), planVersions }, asOf);
+  }, [planVersions, asOf]);
+
+  const projection = useMemo(() => {
+    return selectProjectedFinish({ ...useStore.getState(), planVersions, holdings, ledger, calamity }, asOf);
+  }, [planVersions, holdings, ledger, calamity, asOf]);
+
+  const nextMilestone = useMemo(() => {
+    return selectNextMilestone({ ...useStore.getState(), milestones });
+  }, [milestones]);
+
+  const updateDue = useMemo(() => {
+    return selectMonthlyUpdateDue({ ...useStore.getState(), planVersions, ledger, settings }, asOf);
+  }, [planVersions, ledger, settings, asOf]);
 
   // 1. Quote of the day at the very top (day-seeded pick)
   const todayKeyStr = dayKey(asOf);

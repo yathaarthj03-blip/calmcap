@@ -26,7 +26,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title, onMobileMenuOpen, onOpenM
   const storageWarning = useStore((s) => s.storageWarning);
   const calamity = useStore((s) => s.calamity);
   const isUnderStress = useStore(selectIsUnderStress);
-  const monthlyUpdateDue = useStore((s) => selectMonthlyUpdateDue(s));
+  const monthlyUpdateDue = useStore(selectMonthlyUpdateDue);
   const profile = useStore((s) => s.profile);
 
   const todayStr = format(new Date(), 'EEEE, d MMMM yyyy');

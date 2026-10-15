@@ -20,7 +20,7 @@ export const RoadmapPage: React.FC = () => {
   const spec = useStore(selectPlanSpec);
   const rows = useStore(selectRoadmapRows);
   const ledger = useStore((s) => s.ledger);
-  const savings = useStore((s) => selectSavingsBreakdown(s));
+  const savings = useStore(selectSavingsBreakdown);
   const showToast = useStore((s) => s.showToast);
 
   const [filterMode, setFilterMode] = useState<'12_MONTHS' | 'ALL'>('12_MONTHS');

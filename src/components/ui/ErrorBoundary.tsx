@@ -30,8 +30,8 @@ export class ErrorBoundary extends Component<Props, State> {
     } catch {
       // ignore
     }
-    window.location.hash = '#/app/dashboard';
-    window.location.reload();
+    const cleanUrl = window.location.origin + window.location.pathname + '#/app/dashboard';
+    window.location.href = cleanUrl;
   };
 
   public render() {
