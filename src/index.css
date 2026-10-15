@@ -1,0 +1,153 @@
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource/hanken-grotesk/400.css';
+@import '@fontsource/hanken-grotesk/500.css';
+@import '@fontsource/hanken-grotesk/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 247 248 247;
+    --surface: 255 255 255;
+    --surface-2: 238 241 239;
+    --ink: 20 24 22;
+    --muted: 95 105 100;
+    --line: 222 228 224;
+    --accent: 196 148 56;
+    --on-accent: 255 255 255;
+    --safe: 47 107 194;
+    --mid: 184 134 45;
+    --loss: 190 58 43;
+    color-scheme: light;
+  }
+  .dark {
+    --bg: 18 20 20;
+    --surface: 26 30 29;
+    --surface-2: 36 42 40;
+    --ink: 244 246 245;
+    --muted: 150 162 157;
+    --line: 44 52 49;
+    --accent: 205 163 80;
+    --on-accent: 18 20 20;
+    --safe: 91 147 224;
+    --mid: 205 163 80;
+    --loss: 255 127 110;
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-sans text-base text-ink antialiased;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: rgb(var(--accent) / 0.2);
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  .panel {
+    @apply rounded-panel border border-line bg-surface;
+  }
+  .label {
+    @apply text-sm font-medium text-ink;
+  }
+  .help {
+    @apply text-sm text-muted;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.08em] text-muted;
+  }
+  .input {
+    @apply h-11 w-full rounded-ctl border border-line bg-surface px-3 text-base text-ink placeholder:text-muted/70;
+    @apply transition-colors focus:border-accent focus:outline-none focus-visible:outline-2 focus-visible:outline-accent;
+  }
+  .input[aria-invalid='true'] {
+    @apply border-loss;
+  }
+  .range {
+    @apply w-full cursor-pointer appearance-none bg-transparent;
+    height: 28px;
+  }
+  .range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      rgb(var(--accent)) 0%,
+      rgb(var(--accent)) var(--fill, 0%),
+      rgb(var(--line)) var(--fill, 0%),
+      rgb(var(--line)) 100%
+    );
+  }
+  .range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(var(--line));
+  }
+  .range::-moz-range-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(var(--accent));
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    margin-top: -8px;
+    border-radius: 999px;
+    background: rgb(var(--surface));
+    border: 2px solid rgb(var(--accent));
+  }
+  .range::-moz-range-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 999px;
+    background: rgb(var(--surface));
+    border: 2px solid rgb(var(--accent));
+  }
+  .range:focus-visible {
+    outline: none;
+  }
+  .range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgb(var(--accent) / 0.35);
+  }
+  .range:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgb(var(--accent) / 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
